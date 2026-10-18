@@ -1,0 +1,37 @@
+name: macOS CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: macOS environment
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show environment
+        run: |
+          sw_vers
+          uname -m
+          xcodebuild -version
+          swift --version
+          python3 --version
+          node --version
+
+      - name: Build and test
+        run: |
+          # Replace with your project's build and test commands.
+          echo "macOS runner is ready. Add build and test commands here."
